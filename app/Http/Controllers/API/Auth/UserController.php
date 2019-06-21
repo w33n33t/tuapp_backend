@@ -98,13 +98,16 @@ class UserController extends Controller
         } 
         $request->merge(['password' => bcrypt($request->password)]);
         $user = User::create($request->all()); 
-        $user->token = str_random(60);
- 
+        $user->api_token = str_random(60);
+        
+        $role = config('roles.models.role')::where('name', '=', 'ShopManager')->first();  
+        $user->attachRole($role);
+        
         $user->save(); 
           
         return responsejson(1 , 'OK' ,
                                       [
-                                         'Api_Token' => $user->token,
+                                         'Token' => $user->api_token,
                                          'User'      => $user
                                        ]); 
     }
@@ -187,7 +190,7 @@ class UserController extends Controller
     */
     public function profile ()
     {   
-        $user = api_user();  
+        $user = api_user();   
         return responsejson(1 , 'OK' ,  $user);    
     }  
 

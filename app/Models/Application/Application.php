@@ -45,7 +45,7 @@ class Application extends Model
 
 
     public $fillable = [
-        'text'
+        'title'
     ];
 
     /**
@@ -55,7 +55,7 @@ class Application extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'text' => 'string'
+        'title' => 'string'
     ];
 
     /**
@@ -64,8 +64,9 @@ class Application extends Model
      * @var array
      */
     public static $rules = [
-        'text' => 'required'
+        'title' => 'required'
     ];
 
     
 }
+ 

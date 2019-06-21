@@ -22,34 +22,37 @@ Route::group(['namespace' => 'API']  , function(){
         Route::post('reset-password', 'UserController@reset');
         Route::post('new-password', 'UserController@password'); 
         Route::get('/login/{provider}', 'SocialloginController@redirectToProvider');
-        Route::get('/login/{provider}/callback', 'SocialloginController@handleProviderCallback');
+        Route::get('/login/{provider}/callback', 'SocialloginController@handleProviderCallback'); 
+    }); 
+    
+    Route::group(['middleware' => 'auth:api'] , function(){     
  
-        Route::group(['middleware' => 'auth:api'] , function(){    
+        Route::group(['prefix' => 'Auth' , 'namespace' => 'Auth']  , function(){      
             Route::get('profile' , 'UserController@profile'); 
             Route::put('profile/update' , 'UserController@update');  
-            Route::post('logout' , 'UserController@logout');   
+            Route::post('logout' , 'UserController@logout');    
         }); 
-    }); 
 
+        Route::group(['prefix' => 'role' , 'namespace' => 'Role']  , function(){   
+            Route::post('addRole', 'RoleAPIController@addRole');
+            Route::post('addPermission', 'RoleAPIController@addPermission');
+            Route::post('addpermissiontorole', 'RoleAPIController@addpermissiontorole');
+            Route::post('deletepermission', 'RoleAPIController@deletepermission');
+            Route::post('deleteallpermission', 'RoleAPIController@deleteallpermission');
+        }); 
+
+        Route::group(['middleware' => ['role:shop.manager']], function () {  
+             
+            Route::resource('services','Service\ServiceAPIController', ['only' => ['store','edit','delete']]);
+            Route::resource('/applications','Application\ApplicationAPIController', ['only' => ['store','edit','delete']]); 
+        }); 
+
+        Route::group(['middleware' => ['role:Shop.User|Shop.Operator']], function () {  
+            Route::resource('services','Service\ServiceAPIController', ['only' => ['index','show']]);
+            Route::resource('applications','Application\ApplicationAPIController', ['only' => ['index','show']]); 
+        });
  
-    Route::group(['prefix' => 'role' , 'namespace' => 'Role']  , function(){   
-        Route::post('addRole', 'RoleAPIController@addRole');
-        Route::post('addPermission', 'RoleAPIController@addPermission');
-        Route::post('addpermissiontorole', 'RoleAPIController@addpermissiontorole');
-        Route::post('deletepermission', 'RoleAPIController@deletepermission');
-        Route::post('deleteallpermission', 'RoleAPIController@deleteallpermission');
-    });
-
-
-    Route::group(['middleware' => ['role:ShopManager']], function () {  
-        Route::resource('services','Service\ServiceAPIController', ['only' => ['store','edit','delete']]);
-        Route::resource('applications','Application\ApplicationAPIController', ['only' => ['create','edit','delete']]); 
+  
     }); 
-
-    Route::group(['middleware' => ['role:ShopUser|ShopOperator']], function () {  
-        Route::resource('services','Service\ServiceAPIController', ['only' => ['index','show']]);
-        Route::resource('applications','Application\ApplicationAPIController', ['only' => ['index','show']]); 
-    });
- 
 
 }); 

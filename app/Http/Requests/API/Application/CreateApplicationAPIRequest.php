@@ -22,7 +22,7 @@ class CreateApplicationAPIRequest extends APIRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules() 
     {
         return Application::$rules;
     }

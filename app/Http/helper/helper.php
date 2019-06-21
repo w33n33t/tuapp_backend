@@ -18,7 +18,7 @@ if(!function_exists('responsejson')){
     
 if(!function_exists('api_user')){ 
     function api_user(){     	 
-        return Auth::guard('api_user')->user();
+        return Auth::guard('api')->user();
         }  
     }
 
