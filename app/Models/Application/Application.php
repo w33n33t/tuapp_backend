@@ -16,9 +16,19 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *          format="int32"
  *      ),
  *      @SWG\Property(
- *          property="text",
- *          description="text",
+ *          property="title",
+ *          description="string",
  *          type="string"
+ *      ),
+ *      @SWG\Property(
+ *          property="services",
+ *          description="services",
+ *          type="integer"
+ *      ),
+ *      @SWG\Property(
+ *          property="appkinds",
+ *          description="app kind",
+ *          type="integer"
  *      ),
  *      @SWG\Property(
  *          property="created_at",
@@ -67,6 +77,16 @@ class Application extends Model
         'title' => 'required'
     ];
 
+    public function services()
+    {
+        return $this->belongsToMany('App\Models\Service\Service', 'application_service', 'application_id', 'service_id');
+    }
+
+    public function appkinds()
+    {
+        return $this->belongsToMany('App\Models\App_Kind', 'app_kind_application', 'application_id', 'app_kind_id');
+    }
     
+
 }
  

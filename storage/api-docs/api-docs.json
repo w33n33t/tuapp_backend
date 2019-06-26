@@ -50,7 +50,25 @@
                 ],
                 "parameters": [
                     {
-                        "name": "body",
+                        "name": "title",
+                        "in": "body",
+                        "description": "Application that should be stored",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/Application"
+                        }
+                    },
+                    {
+                        "name": "appkinds",
+                        "in": "body",
+                        "description": "Application that should be stored",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/definitions/Application"
+                        }
+                    },
+                    {
+                        "name": "services",
                         "in": "body",
                         "description": "Application that should be stored",
                         "required": false,
@@ -70,8 +88,14 @@
                                 "data": {
                                     "$ref": "#/definitions/Application"
                                 },
-                                "message": {
+                                "title": {
                                     "type": "string"
+                                },
+                                "appkinds": {
+                                    "type": "integer"
+                                },
+                                "services": {
+                                    "type": "integer"
                                 }
                             },
                             "type": "object"
@@ -791,9 +815,17 @@
                     "type": "integer",
                     "format": "int32"
                 },
-                "text": {
-                    "description": "text",
+                "title": {
+                    "description": "string",
                     "type": "string"
+                },
+                "services": {
+                    "description": "services",
+                    "type": "integer"
+                },
+                "appkinds": {
+                    "description": "app kind",
+                    "type": "integer"
                 },
                 "created_at": {
                     "description": "created_at",

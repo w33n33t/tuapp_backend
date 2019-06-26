@@ -8,6 +8,7 @@ use App\Models\Application\Application;
 use App\Repositories\Application\ApplicationRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
+use App\Models\User;
 use Response;
 
 
@@ -75,7 +76,21 @@ class ApplicationAPIController extends AppBaseController
      *      description="Store Application",
      *      produces={"application/json"},
      *      @SWG\Parameter(
-     *          name="body",
+     *          name="title",
+     *          in="body",
+     *          description="Application that should be stored",
+     *          required=false,
+     *          @SWG\Schema(ref="#/definitions/Application")
+     *      ),
+     *      @SWG\Parameter(
+     *          name="appkinds",
+     *          in="body",
+     *          description="Application that should be stored",
+     *          required=false,
+     *          @SWG\Schema(ref="#/definitions/Application")
+     *      ),
+     *      @SWG\Parameter(
+     *          name="services",
      *          in="body",
      *          description="Application that should be stored",
      *          required=false,
@@ -95,8 +110,16 @@ class ApplicationAPIController extends AppBaseController
      *                  ref="#/definitions/Application"
      *              ),
      *              @SWG\Property(
-     *                  property="message",
+     *                  property="title",
      *                  type="string"
+     *              ),
+     *              @SWG\Property(
+     *                  property="appkinds",
+     *                  type="integer"
+     *              ),
+     *              @SWG\Property(
+     *                  property="services",
+     *                  type="integer"
      *              )
      *          )
      *      )
@@ -107,6 +130,39 @@ class ApplicationAPIController extends AppBaseController
         $input = $request->all();
 
         $application = $this->applicationRepository->create($input);
+  
+        if ($request->has('appkinds'))
+            {
+                $appkinds = $request->appkinds;
+                foreach ($appkinds as $appkind) 
+                    {
+                        $appkinds = $appkind['id']; 
+                        $application->appkinds()->attach($appkinds);
+                    } 
+            }       
+
+        if ($request->has('services'))
+            {
+                $services = $request->services; 
+                foreach ($services as $service) 
+                    {
+                        $services = $service['id']; 
+                        $application->services()->attach($services);
+                    }  
+            }
+ 
+        if ($request->has('workers')) 
+            { 
+                $ids = $request->workers; 
+                $workers = User::whereIn('id', $ids)->get();
+    
+                foreach ($workers as $worker) 
+                    {
+                        $worker->app_id = $application->id;
+                        $worker->save();
+                    }  
+            }
+ 
 
         return $this->sendResponse($application->toArray(), 'Application saved successfully');
     }

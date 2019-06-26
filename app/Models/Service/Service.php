@@ -40,5 +40,10 @@ class Service extends Model
         'title' => 'required'
     ];
 
+
+    public function application()
+    {
+        return $this->belongsToMany('App\Models\Application\Application', 'application_service', 'service_id', 'application_id');
+    }
     
 }

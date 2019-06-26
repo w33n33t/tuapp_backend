@@ -133,15 +133,12 @@ Route::redirect('/php', '/phpinfo', 301);
 
 Route::resource('shops', 'ShopController');
 
-Route::resource('shops', 'ShopController');
+Route::resource('shop', 'ShopController');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
-
-Route::resource('shops', 'ShopController');
-
-Route::resource('shops', 'ShopController');
+ 
 
 Route::group(['prefix' => 'application'], function () {
     Route::resource('applications', 'Application\ApplicationController', ["as" => 'application']);

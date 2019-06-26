@@ -98,6 +98,7 @@ class User extends Authenticatable
         'admin_ip_address',
         'updated_ip_address',
         'deleted_ip_address',
+        'app_id',
     ];
 
     /**
@@ -163,4 +164,16 @@ class User extends Authenticatable
     {
         return $this->profiles()->detach($profile);
     }
+
+
+
+
+
+
+    
+    public function application()
+    {
+        return $this->belongsTo('App\Models\Application\Application', 'app_id');
+    }
+
 }
