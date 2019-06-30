@@ -112,6 +112,9 @@ class ServiceAPIController extends AppBaseController
 
         $service = $this->serviceRepository->create($input);
 
+        $service->app_id = ApplicationId();
+        $service->save();
+
         return $this->sendResponse($service->toArray(), 'Service saved successfully');
     }
 

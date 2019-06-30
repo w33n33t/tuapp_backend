@@ -31,8 +31,6 @@ class CreateUsersTable extends Migration
             $table->ipAddress('deleted_ip_address')->nullable();
             $table->timestamps();
             $table->softDeletes();
-            $table->integer('app_id')->unsigned()->nullable();
-            $table->foreign('app_id')->references('id')->on('applications')->onDelete('cascade');
         });
     }
 

@@ -22,7 +22,7 @@ Route::group(['namespace' => 'API']  , function(){
         Route::post('reset-password', 'UserController@reset');
         Route::post('new-password', 'UserController@password'); 
         Route::get('/login/{provider}', 'SocialloginController@redirectToProvider');
-        Route::get('/login/{provider}/callback', 'SocialloginController@handleProviderCallback'); 
+        Route::get('/login/{provider}/callback', 'SocialloginController@getSocialHandle'); 
     }); 
     
     Route::group(['middleware' => 'auth:api'] , function(){     
@@ -47,7 +47,7 @@ Route::group(['namespace' => 'API']  , function(){
             Route::resource('/applications','Application\ApplicationAPIController', ['only' => ['store','edit','delete']]); 
         }); 
 
-        Route::group(['middleware' => ['role:Shop.User|Shop.Operator']], function () {  
+        Route::group(['middleware' => ['role:shop.manager|Shop.User|Shop.Operator']], function () {  
             Route::resource('services','Service\ServiceAPIController', ['only' => ['index','show']]);
             Route::resource('applications','Application\ApplicationAPIController', ['only' => ['index','show']]); 
         });

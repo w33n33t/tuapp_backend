@@ -15,13 +15,20 @@ if(!function_exists('responsejson')){
         return response()->json($response); 
     }  
 
+}
     
 if(!function_exists('api_user')){ 
     function api_user(){     	 
         return Auth::guard('api')->user();
-        }  
-    }
-
+    }  
 }
+
+
+if(!function_exists('ApplicationId')){ 
+    function ApplicationId(){     	 
+        return Auth::user()->app_id;
+    }  
+}
+
 
   

@@ -12,7 +12,14 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+    
+Route::group(['middleware' => 'auth:api'] , function(){     
 
-// Route::middleware('auth:api')->get('/shop', function (Request $request) {
-//     return $request->user();
-// });
+        Route::group(['middleware' => ['role:shop.manager']], function () {   
+            Route::resource('shops','shop\shopAPIController', ['only' => ['store','edit','delete']]); 
+        }); 
+
+        Route::group(['middleware' => ['role:shop.manager|Shop.User|Shop.Operator']], function () {  
+            Route::resource('shops','shop\shopAPIController', ['only' => ['index','show']]); 
+        });
+}); 

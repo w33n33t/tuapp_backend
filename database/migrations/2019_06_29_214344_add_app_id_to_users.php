@@ -1,11 +1,11 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
-class CreateServicesTable extends Migration
+class AddAppIdToUsers extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -13,13 +13,9 @@ class CreateServicesTable extends Migration
      */
     public function up()
     {
-        Schema::create('services', function (Blueprint $table) {
-            $table->increments('id');
-            $table->text('title');
+        Schema::table('users', function (Blueprint $table) { 
             $table->integer('app_id')->unsigned()->nullable();
             $table->foreign('app_id')->references('id')->on('applications')->onDelete('cascade');
-            $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -30,6 +26,8 @@ class CreateServicesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('services');
+        Schema::table('users', function (Blueprint $table) {
+            //
+        });
     }
 }

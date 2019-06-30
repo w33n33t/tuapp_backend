@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use App\Models\User;
 use Response;
+use Auth;
 
 
 class ApplicationAPIController extends AppBaseController
@@ -125,6 +126,64 @@ class ApplicationAPIController extends AppBaseController
      *      )
      * )
      */
+    // public function store(CreateApplicationAPIRequest $request)
+    // {
+    //     $input = $request->all();
+
+    //     $application = $this->applicationRepository->create($input);
+  
+    //     if ($request->has('appkinds'))
+    //         {
+    //             $appkinds = $request->appkinds;
+    //             foreach ($appkinds as $appkind) 
+    //                 {
+    //                     $appkinds = $appkind['id']; 
+    //                     $application->appkinds()->attach($appkinds);
+    //                 } 
+    //         }       
+
+    //     if ($request->has('services'))
+    //         {
+    //             $services = $request->services; 
+    //             foreach ($services as $service) 
+    //                 {
+    //                     $services = $service['id']; 
+    //                     $application->services()->attach($services);
+    //                 }  
+    //         }
+ 
+    //     if ($request->has('workers')) 
+    //         { 
+    //             $ids = $request->workers; 
+    //             $workers = User::whereIn('id', $ids)->get();
+    
+    //             foreach ($workers as $worker) 
+    //                 {
+    //                     $worker->app_id = $application->id;
+    //                     $worker->save();
+    //                 }  
+    //         }
+ 
+
+    //     return $this->sendResponse($application->toArray(), 'Application saved successfully');
+
+ 
+    // }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public function store(CreateApplicationAPIRequest $request)
     {
         $input = $request->all();
@@ -140,32 +199,90 @@ class ApplicationAPIController extends AppBaseController
                         $application->appkinds()->attach($appkinds);
                     } 
             }       
-
-        if ($request->has('services'))
-            {
-                $services = $request->services; 
-                foreach ($services as $service) 
-                    {
-                        $services = $service['id']; 
-                        $application->services()->attach($services);
-                    }  
-            }
  
-        if ($request->has('workers')) 
-            { 
-                $ids = $request->workers; 
-                $workers = User::whereIn('id', $ids)->get();
-    
-                foreach ($workers as $worker) 
-                    {
-                        $worker->app_id = $application->id;
-                        $worker->save();
-                    }  
-            }
- 
+        $admin = Auth::user();
+        $admin->app_id = $application->id;
+        $admin->save();
 
         return $this->sendResponse($application->toArray(), 'Application saved successfully');
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * @param int $id
