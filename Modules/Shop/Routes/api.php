@@ -16,10 +16,10 @@ use Illuminate\Http\Request;
 Route::group(['middleware' => 'auth:api'] , function(){     
 
         Route::group(['middleware' => ['role:shop.manager']], function () {   
-            Route::resource('shops','shop\shopAPIController', ['only' => ['store','edit','delete']]); 
+            Route::resource('shops','ShopController', ['only' => ['store','edit','delete']]); 
         }); 
 
         Route::group(['middleware' => ['role:shop.manager|Shop.User|Shop.Operator']], function () {  
-            Route::resource('shops','shop\shopAPIController', ['only' => ['index','show']]); 
+            Route::resource('shops','ShopController', ['only' => ['index','show']]); 
         });
 }); 

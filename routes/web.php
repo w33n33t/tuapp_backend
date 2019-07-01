@@ -131,9 +131,9 @@ Route::group(['middleware' => ['auth', 'activated', 'role:admin', 'activity', 't
 Route::redirect('/php', '/phpinfo', 301);
 
 
-Route::resource('shops', 'ShopController');
+// Route::resource('shops', 'ShopController');
 
-Route::resource('shop', 'ShopController');
+// Route::resource('shop', 'ShopController');
 
 Auth::routes();
 

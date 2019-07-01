@@ -5,7 +5,7 @@ namespace Modules\Shop\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-use Modules\Service\Entities\Shop;
+use Modules\Shop\Entities\Shop;
 
 class ShopController extends Controller
 {
@@ -33,8 +33,23 @@ class ShopController extends Controller
      * @return Response
      */
     public function store(Request $request)
-    {
-        //
+    {  
+        $data = $request->all(); 
+        $validator = validator()->make($data, [
+            'branch'      => 'required|min:6',  
+            'city_id'     => 'required',   
+        ]); 
+        if ($validator->fails()) 
+            {
+                return responsejson(1 , $validator->errors()->first() , $validator->errors()); 
+            }  
+        $shop = Shop::create($request->all());   
+        $shop->save();  
+
+        $shop->app_id = ApplicationId();
+        $shop->save(); 
+        
+        return responsejson(1 , 'OK' ,$shop);
     }
 
     /**
